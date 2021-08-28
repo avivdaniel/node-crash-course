@@ -19,8 +19,18 @@ router.post('/ninjas', async (req, res, next) => {
 
 
 //UPDATE
-router.put('/ninjas/:id', (req, res, next) => {
-    res.send({type: 'PUT'})
+router.put('/ninjas/:id', async (req, res, next) => {
+    try {
+        await Ninja.findByIdAndUpdate({
+            _id: req.params.id
+        }, req.body);
+        const updatedNinja = await Ninja.findOne({
+            _id: req.params.id
+        })
+        res.send(updatedNinja);
+    } catch (err) {
+        next(err);
+    }
 });
 
 //DELETE
