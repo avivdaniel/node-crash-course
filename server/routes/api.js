@@ -7,6 +7,8 @@ const path = require('path');
 router.get('/ninjas', async (req, res, next) => {
     try {
         const {lng, lat} = req.query;
+        console.log('langtiti', lng)
+        console.log('latiti', lat)
         const ninjas = await Ninja.aggregate([
             {
                 '$geoNear': {
@@ -15,7 +17,7 @@ router.get('/ninjas', async (req, res, next) => {
                         'coordinates': [parseFloat(lng), parseFloat(lat)]
                     },
                     "spherical": true,
-                    "distanceField": 'dist',
+                    "distanceField": 'dis',
                     "maxDistance": 100000
                 }
             }
