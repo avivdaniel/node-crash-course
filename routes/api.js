@@ -3,8 +3,26 @@ const router = express.Router();
 const Ninja = require('../models/ninja');
 
 //Get a list of ninjas from db
-router.get('/ninjas', (req, res, next) => {
-    res.send({type: 'GET'})
+router.get('/ninjas', async (req, res, next) => {
+    try {
+        const {lng, lat} = req.query;
+        const ninjas = await Ninja.aggregate([
+            {
+                '$geoNear': {
+                    "near": {
+                        'type': 'Point',
+                        'coordinates': [parseFloat(lng), parseFloat(lat)]
+                    },
+                    "spherical": true,
+                    "distanceField": 'dist',
+                    "maxDistance": 100000
+                }
+            }
+        ])
+        res.send(ninjas);
+    } catch (err) {
+        next(err);
+    }
 });
 
 //ADD
@@ -36,10 +54,10 @@ router.put('/ninjas/:id', async (req, res, next) => {
 //DELETE
 router.delete('/ninjas/:id', async (req, res, next) => {
     try {
-    const ninja = await Ninja.findByIdAndRemove({
-        _id: req.params.id
-    });
-    res.send(ninja);
+        const ninja = await Ninja.findByIdAndRemove({
+            _id: req.params.id
+        });
+        res.send(ninja);
     } catch (err) {
         next(err);
     }

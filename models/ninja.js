@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const GeoSchema = new Schema({
     type: {
         type: String,
-        default: "p oint"
+        default: "Point"
     },
     coordinates: {
         type: [Number],
