@@ -2,10 +2,16 @@ const express = require('express');
 const routes = require('./routes/api');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const path = require('path');
 
+const PORT = process.env.port || 3001;
 // express index - instance;
 const app = express();
 
+// Have Node serve the files for our built React app
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+
+//Second middleware- Body-parser
 app.use(bodyParser.json());
 
 //Initialized routes
@@ -20,8 +26,8 @@ connect();
 
 // listen to requests;
 function listen() {
-    app.listen(process.env.port || 3000, () => {
-        console.log('App listen to port 3000');
+    app.listen(PORT, () => {
+        console.log(`App listen to port ${PORT}`);
     })
 };
 

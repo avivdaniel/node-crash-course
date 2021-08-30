@@ -2,10 +2,14 @@
   "name": "intro-node.js",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "nodemon index.js"
+    "start": "nodemon server/index.js",
+    "build": "cd client && yarn && yarn run build"
+  },
+  "engines": {
+    "node": "14.17.5"
   },
   "keywords": [],
   "author": "",

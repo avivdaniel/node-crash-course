@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Ninja = require('../models/ninja');
+const path = require('path');
 
 //Get a list of ninjas from db
 router.get('/ninjas', async (req, res, next) => {
@@ -61,6 +62,11 @@ router.delete('/ninjas/:id', async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+});
+
+// All other GET requests not handled before will return our React app
+router.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../../client/build', 'index.html'));
 });
 
 module.exports = router;
